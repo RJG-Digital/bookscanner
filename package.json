@@ -1,0 +1,34 @@
+{
+  "name": "bookscanner",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "This is an AR book scanner app",
+  "main": "server.js",
+  "scripts": {
+    "server": "nodemon backend/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/warlok900/bookscanner.git"
+  },
+  "author": "Robert Gannard",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/warlok900/bookscanner/issues"
+  },
+  "homepage": "https://github.com/warlok900/bookscanner#readme",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "colors": "^1.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-async-handler": "^1.2.0",
+    "mongoose": "^6.3.8",
+    "puppeteer": "^14.4.0"
+  },
+  "devDependencies": {
+    "concurrently": "^7.2.1",
+    "nodemon": "^2.0.16"
+  }
+}

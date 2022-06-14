@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "AR Book Scanner",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

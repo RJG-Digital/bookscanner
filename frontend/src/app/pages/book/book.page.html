@@ -1,0 +1,104 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="primary"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{book.title}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <ion-card *ngIf="book">
+    <ion-card-header>
+      <ion-card-title>{{book.title}}</ion-card-title>
+    </ion-card-header>
+    <img style="margin: auto" [src]="book.picture" />
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label>author</ion-label>
+          <ion-note slot="end" color="primary">{{book.author}}</ion-note>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Summary</ion-label>
+          <ion-grid>
+            <ion-row>
+              <ion-col id="desc-col">
+                <span>{{book.description}}</span>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Reading Level</ion-label>
+          <ion-note slot="end" color="primary">{{book.level}}</ion-note>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Points</ion-label>
+          <ion-note slot="end" color="primary">{{book.points}}</ion-note>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Quiz #</ion-label>
+          <ion-note slot="end" color="primary">{{book.quizNumber}}</ion-note>
+        </ion-item>
+
+        <ion-item>
+          <ion-label style="width: 100%">Quiz Types</ion-label>
+          <ion-grid>
+            <ion-row *ngFor="let type of book.quizTypes">
+              <ion-col>
+                <span>{{type}}</span>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Word Count</ion-label>
+          <ion-note slot="end" color="primary">{{book.wordCount}}</ion-note>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Interest Level</ion-label>
+          <ion-note slot="end" color="primary">{{book.interestLevel}}</ion-note>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Fiction/NonFiction</ion-label>
+          <ion-note slot="end" color="primary">{{book.fictionNonFiction}}</ion-note>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Topics</ion-label>
+          <ion-grid>
+            <ion-row *ngFor="let topic of book.topics">
+              <ion-col>
+                <span>{{topic}}</span>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Series</ion-label>
+          <ion-grid>
+            <ion-row *ngFor="let series of book.series">
+              <ion-col>
+                <span>{{series}}</span>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Language Code</ion-label>
+          <ion-note slot="end" color="primary">{{book.languageCode}}</ion-note>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

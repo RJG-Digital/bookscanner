@@ -1,0 +1,15 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      AR Scanner
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <ion-row style="height: calc(100vh - 200px);" (click)="scan()">
+      <h1 style="margin:auto;">Tap anywhere to scan</h1>
+    </ion-row>
+  </ion-grid>
+</ion-content>
