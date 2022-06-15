@@ -223,7 +223,7 @@ const getBooksBySearchTerm = asynchandler(async (req, res) => {
                 ).innerText.trim();
                 const quizTypes = document.querySelector(
                     '#ctl00_ContentPlaceHolder1_ucBookDetail_lblQuizStatusLabel'
-                ).innerText.trim().split(';');
+                ).innerText.trim().split(',');
                 const topics = document.querySelector(
                     '#ctl00_ContentPlaceHolder1_ucBookDetail_lblTopicLabel'
                 ).innerText.trim().split('; ');
