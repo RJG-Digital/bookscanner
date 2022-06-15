@@ -1,6 +1,11 @@
 # bookscanner
 This app scans ar books
 
+# build ionic for production
+ng build --configuration=production
+ionic capacitor sync android
+ionic capacitor sync ios
+
 # to run heroku
 heroku login
 git add .

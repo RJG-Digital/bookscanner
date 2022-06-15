@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Book } from 'src/app/models/book';
@@ -13,7 +14,7 @@ export class BookListPage implements OnInit, OnDestroy {
   public books: Book[] = [];
   private unsubscribe = new Subject<void>();
 
-  constructor(private bookService: BookService) { }
+  constructor(private bookService: BookService, private router: Router) { }
 
   ngOnInit() {
     this.bookService.bookList$
@@ -23,6 +24,10 @@ export class BookListPage implements OnInit, OnDestroy {
           this.books = books;
         }
       });
+  }
+  public viewBook(book: Book) {
+    this.bookService.selectedBook$.next(book);
+    this.router.navigate(['book']);
   }
 
   ngOnDestroy(): void {
