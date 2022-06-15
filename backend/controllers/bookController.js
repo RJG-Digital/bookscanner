@@ -74,33 +74,33 @@ const getBookByIsbn = asynchandler(async (req, res) => {
             const picture = document
                 .querySelector('#ctl00_ContentPlaceHolder1_ucBookDetail_imgBookCover')
                 .getAttribute('src');
-            const level = parseInt(document.querySelector(
+            const level = document.querySelector(
                 '#ctl00_ContentPlaceHolder1_ucBookDetail_lblBookLevel'
-            ).innerText.trim());
+            ).innerText.trim();
             const interestLevel = document.querySelector(
                 '#ctl00_ContentPlaceHolder1_ucBookDetail_lblInterestLevel'
             ).innerText.trim();
-            const points = parseInt(document.querySelector(
+            const points = document.querySelector(
                 '#ctl00_ContentPlaceHolder1_ucBookDetail_lblPoints'
-            ).innerText.trim());
-            const wordCount = parseInt(document.querySelector(
+            ).innerText.trim();
+            const wordCount = document.querySelector(
                 '#ctl00_ContentPlaceHolder1_ucBookDetail_lblWordCount'
-            ).innerText);
+            ).innerText.trim();
             const fictionNonFiction = document.querySelector(
                 '#ctl00_ContentPlaceHolder1_ucBookDetail_lblFictionNonFiction'
-            ).innerText;
+            ).innerText.trim();
             const title = document.querySelector(
                 '#ctl00_ContentPlaceHolder1_ucBookDetail_lblBookTitle'
-            ).innerText;
+            ).innerText.trim();
             const author = document.querySelector(
                 '#ctl00_ContentPlaceHolder1_ucBookDetail_lblAuthor'
-            ).innerText;
+            ).innerText.trim();
             const description = document.querySelector(
                 '#ctl00_ContentPlaceHolder1_ucBookDetail_lblBookSummary'
-            ).innerText;
-            const quizNumber = parseInt(document.querySelector(
+            ).innerText.trim();
+            const quizNumber = document.querySelector(
                 '#ctl00_ContentPlaceHolder1_ucBookDetail_lblQuizNumber'
-            ).innerText);
+            ).innerText.trim();
             const quizTypes = document.querySelector(
                 '#ctl00_ContentPlaceHolder1_ucBookDetail_lblQuizStatusLabel'
             ).innerText.trim().split(';');
@@ -112,7 +112,7 @@ const getBookByIsbn = asynchandler(async (req, res) => {
             ).innerText.trim().split('; ');
             const languageCode = document.querySelector(
                 '#ctl00_ContentPlaceHolder1_ucBookDetail_lblLanguageCode'
-            ).innerText;
+            ).innerText.trim();
             return {
                 title,
                 author,
@@ -145,4 +145,134 @@ const getBookByIsbn = asynchandler(async (req, res) => {
     }
 });
 
-export { getBookByIsbn };
+const getBooksBySearchTerm = asynchandler(async (req, res) => {
+    try {
+        const foundBooks = [];
+        const { term } = req.params;
+        const browser = await puppeteer.launch({
+            headless: false,
+            args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox'
+            ],
+        });
+        const page = await browser.newPage();
+        await page.goto(ACCELERATED_READER_URL);
+        await page.click(ACCEPT_COOKIE_ID); // accept cookies
+
+        await page.waitForSelector(TEACHER_RADIO_ID, { visible: true }); // select teacher user type
+        await page.click(TEACHER_RADIO_ID);
+
+        await page.waitForSelector(USER_TYPE_SUBMIT_BUTTON_ID, { visible: true }); // submit and go to search page
+        await page.waitForTimeout(1500);
+        await page.click(USER_TYPE_SUBMIT_BUTTON_ID);
+
+        await page.waitForSelector(SEARCH_INPUT_FIELD_ID, { visible: true }); // put book ISBN into search input
+        await page.click(SEARCH_INPUT_FIELD_ID);
+        await page.type(SEARCH_INPUT_FIELD_ID, term);
+
+        await page.click(SUBMIT_SEARCH_BUTTON_ID); // submit search
+        await page.waitForSelector(BOOK_LIST_TITLE_ID, { timeout: 5000 }); // select the list of books that return and choose the first one (5 sec timeout).
+        await page.waitForTimeout(1000);
+
+        let bookList = await page.$$(BOOK_LIST_TITLE_ID);
+        if (!bookList.length) {
+            res.status(404);
+            throw new Error(`Book with the ISBN of ${bookIsbn} was not found.`);
+        }
+
+        for (let i = 0; i < bookList.length; i++) {
+            await Promise.all([
+                page.waitForSelector(BOOK_LIST_TITLE_ID, { timeout: 5000 }),// The promise resolves after navigation has finished
+                page.waitForTimeout(500),
+                bookList[i].click(), // Clicking the link will indirectly cause a navigation
+            ]);
+            await page.waitForSelector(BOOK_PICTURE_ID, { timeout: 5000 });
+
+            const book = await page.evaluate(async () => {
+                // gather book data
+                const picture = document
+                    .querySelector('#ctl00_ContentPlaceHolder1_ucBookDetail_imgBookCover')
+                    .getAttribute('src');
+                const level = document.querySelector(
+                    '#ctl00_ContentPlaceHolder1_ucBookDetail_lblBookLevel'
+                ).innerText.trim();
+                const interestLevel = document.querySelector(
+                    '#ctl00_ContentPlaceHolder1_ucBookDetail_lblInterestLevel'
+                ).innerText.trim();
+                const points = document.querySelector(
+                    '#ctl00_ContentPlaceHolder1_ucBookDetail_lblPoints'
+                ).innerText.trim();
+                const wordCount = document.querySelector(
+                    '#ctl00_ContentPlaceHolder1_ucBookDetail_lblWordCount'
+                ).innerText.trim();
+                const fictionNonFiction = document.querySelector(
+                    '#ctl00_ContentPlaceHolder1_ucBookDetail_lblFictionNonFiction'
+                ).innerText.trim();
+                const title = document.querySelector(
+                    '#ctl00_ContentPlaceHolder1_ucBookDetail_lblBookTitle'
+                ).innerText.trim();
+                const author = document.querySelector(
+                    '#ctl00_ContentPlaceHolder1_ucBookDetail_lblAuthor'
+                ).innerText.trim();
+                const description = document.querySelector(
+                    '#ctl00_ContentPlaceHolder1_ucBookDetail_lblBookSummary'
+                ).innerText.trim();
+                const quizNumber = document.querySelector(
+                    '#ctl00_ContentPlaceHolder1_ucBookDetail_lblQuizNumber'
+                ).innerText.trim();
+                const quizTypes = document.querySelector(
+                    '#ctl00_ContentPlaceHolder1_ucBookDetail_lblQuizStatusLabel'
+                ).innerText.trim().split(';');
+                const topics = document.querySelector(
+                    '#ctl00_ContentPlaceHolder1_ucBookDetail_lblTopicLabel'
+                ).innerText.trim().split('; ');
+                const series = document.querySelector(
+                    '#ctl00_ContentPlaceHolder1_ucBookDetail_lblSeriesLabel'
+                ).innerText.trim().split('; ');
+                const languageCode = document.querySelector(
+                    '#ctl00_ContentPlaceHolder1_ucBookDetail_lblLanguageCode'
+                ).innerText.trim();
+                return {
+                    title,
+                    author,
+                    description,
+                    picture,
+                    level,
+                    points,
+                    quizNumber,
+                    quizTypes,
+                    wordCount,
+                    interestLevel,
+                    fictionNonFiction,
+                    topics,
+                    series,
+                    languageCode,
+                };
+
+            });
+            foundBooks.push(book);
+            await Promise.all([
+                page.waitForNavigation(),
+                page.goBack(),
+            ]);
+            bookList = await page.$$(BOOK_LIST_TITLE_ID);
+        }
+        // go to next page and do it again
+        //ctl00_ContentPlaceHolder1_ucSeachResults_btnNextPageBottom
+        await browser.close();
+        if (foundBooks) {
+            res.status(200).json(foundBooks);
+        } else {
+            res.status(404);
+            throw new Error('book was not found.')
+        }
+    } catch (error) {
+        if (error instanceof puppeteer.errors.TimeoutError) {
+            res.status(404);
+            throw new Error('book was not found.')
+        }
+    }
+});
+
+export { getBookByIsbn, getBooksBySearchTerm };
