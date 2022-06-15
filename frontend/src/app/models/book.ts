@@ -4,13 +4,13 @@ export interface Book {
   fictionNonFiction: string;
   interestLevel: string;
   languageCode: string;
-  level: string;
+  level: number;
   picture: string;
-  points: string;
-  quizNumber: string;
-  quizTypes: string;
-  series: string;
+  points: number;
+  quizNumber: number;
+  quizTypes: string[];
+  series: string[];
   title: string;
-  topics: string;
-  wordCount: string;
+  topics: string[];
+  wordCount: number;
 }

@@ -15,10 +15,10 @@ export class BookPage implements OnInit, OnDestroy {
   constructor(private bookService: BookService) { }
 
   ngOnInit() {
-    this.bookService.selectedBook$.pipe(take(2))
+    this.bookService.selectedBook$.pipe(takeUntil(this.unsubscribe))
       .subscribe(book => {
-        console.log(book);
-        if (book) {
+        if (book !== null) {
+          console.log(book);
           this.book = book
         }
       })

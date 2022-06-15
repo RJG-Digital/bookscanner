@@ -12,8 +12,8 @@
     <ion-card-header>
       <ion-card-title>{{book.title}}</ion-card-title>
     </ion-card-header>
-    <img style="margin: auto" [src]="book.picture" />
     <ion-card-content>
+      <img style="margin: auto" [src]="book.picture" />
       <ion-list>
         <ion-item>
           <ion-label>author</ion-label>
@@ -43,7 +43,7 @@
 
         <ion-item>
           <ion-label>Quiz #</ion-label>
-          <ion-note slot="end" color="primary">{{book.quizNumber}}</ion-note>
+          <ion-note slot="end" color="primary">{{book.quizNumber }}</ion-note>
         </ion-item>
 
         <ion-item>
@@ -59,7 +59,7 @@
 
         <ion-item>
           <ion-label>Word Count</ion-label>
-          <ion-note slot="end" color="primary">{{book.wordCount}}</ion-note>
+          <ion-note slot="end" color="primary">{{ (book.wordCount | number)}}</ion-note>
         </ion-item>
 
         <ion-item>

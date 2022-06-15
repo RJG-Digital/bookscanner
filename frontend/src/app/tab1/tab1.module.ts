@@ -5,18 +5,17 @@ import { FormsModule } from '@angular/forms';
 import { Tab1Page } from './tab1.page';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { Tab1PageRoutingModule } from './tab1-routing.module';
-import { BookService } from '../services/book/book.service';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
-    Tab1PageRoutingModule
+    Tab1PageRoutingModule,
+    FormsModule
   ],
   providers: [
-    BarcodeScanner,
-    BookService
+    BarcodeScanner
   ],
   declarations: [Tab1Page]
 })

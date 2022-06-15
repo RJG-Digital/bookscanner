@@ -14,6 +14,7 @@ export class Tab1Page {
   public barCodeDataText: string;
   public error: string;
   public loading = false;
+  public searchText = '';
   constructor(
     private barcodeScanner: BarcodeScanner,
     private bookService: BookService,
@@ -29,11 +30,48 @@ export class Tab1Page {
         this.bookService.getBookData(barcodeData.text).pipe(take(1))
           .subscribe(data => {
             if (data) {
-              console.log(data);
               this.bookService.selectedBook$.next(data);
               this.router.navigate(['book']);
+              this.loading = false;
+              this.searchText = '';
+            }
+          }, async (error) => {
+            if (error) {
+              this.loading = false;
+              const toast = await this.toastController.create({
+                color: 'danger',
+                message: error.error.message,
+                duration: 4000
+              });
+              toast.present();
+              this.searchText = '';
             }
           });
       })
+  }
+
+  searchForBook() {
+    this.loading = true;
+    this.bookService.getBookData(this.searchText).pipe(take(1))
+      .subscribe(data => {
+        if (data) {
+          this.bookService.selectedBook$.next(data);
+          this.router.navigate(['book']);
+          this.loading = false;
+          this.searchText = '';
+        }
+      }, async (error) => {
+        if (error) {
+          this.loading = false;
+          const toast = await this.toastController.create({
+            color: 'danger',
+            message: error.error.message,
+            duration: 4000
+          });
+          toast.present();
+          this.searchText = '';
+          this.loading = false;
+        }
+      });
   }
 }

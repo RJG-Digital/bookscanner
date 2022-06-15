@@ -8,8 +8,32 @@
 
 <ion-content [fullscreen]="true">
   <ion-grid>
-    <ion-row style="height: calc(100vh - 200px);" (click)="scan()">
-      <h1 style="margin:auto;">Tap anywhere to scan</h1>
+
+    <ion-row *ngIf="!loading" style="height: calc(50vh - 200px);" (click)="(scan())">
+      <h1 style="margin:auto; text-align: center;">Tap Here To Scan</h1><br>
     </ion-row>
+    <ion-row *ngIf="!loading">
+      <ion-item-divider>
+        <span style="position: absolute;left: 50%;transform: translateY(90%);;">OR</span>
+      </ion-item-divider>
+    </ion-row>
+
+    <ion-row *ngIf="!loading">
+      <ion-input style="text-align: center; margin: 100px 0 20px 0 ;" clearInput [(ngModel)]="searchText"
+        placeholder="Search By Name or ISBN">
+      </ion-input>
+    </ion-row>
+    <ion-row *ngIf="!loading">
+      <ion-button [disabled]="!searchText || searchText === ''" style="width: 100%; margin: 20px;"
+        (click)="searchForBook()">Search</ion-button>
+    </ion-row>
+    <ion-row *ngIf="loading" style="height: calc(100vh - 200px);">
+      <span *ngIf="loading" style="margin:auto;">
+        <ion-spinner style="margin:auto;" name="dots"></ion-spinner>
+      </span>
+    </ion-row>
+
   </ion-grid>
+
+
 </ion-content>

@@ -5,6 +5,7 @@
   "description": "This is an AR book scanner app",
   "main": "server.js",
   "scripts": {
+    "start": "node backend/server.js",
     "server": "nodemon backend/server"
   },
   "repository": {

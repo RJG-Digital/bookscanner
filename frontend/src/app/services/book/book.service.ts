@@ -9,7 +9,7 @@ import { Book } from 'src/app/models/book';
 })
 export class BookService {
 
-  public selectedBook$ = new Subject<Book>()
+  public selectedBook$ = new BehaviorSubject<Book>(null);
 
   private endpoint = ''
   constructor(private endpointService: EndpointService, private http: HttpClient) {
