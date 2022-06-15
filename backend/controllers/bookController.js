@@ -33,7 +33,10 @@ const getBookByIsbn = asynchandler(async (req, res) => {
         const { isbn } = req.params;
         const browser = await puppeteer.launch({
             headless: true,
-            args: ['--no-sandbox', '--disable-setuid-sandbox'],
+            args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox'
+            ],
         });
         const page = await browser.newPage();
         await page.goto(ACCELERATED_READER_URL);

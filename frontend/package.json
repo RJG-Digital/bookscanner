@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
-  "proxy": "http://192.168.4.103:5000/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

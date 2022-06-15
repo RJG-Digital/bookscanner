@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class EndpointService {
-  private baseUrl = 'http://192.168.4.103:5000/api'
+  private baseUrl = 'https://arscanner.herokuapp.com/api'
   constructor() { }
 
   public getBooksEndpoint() {
