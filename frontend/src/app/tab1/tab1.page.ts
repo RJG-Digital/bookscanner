@@ -52,11 +52,11 @@ export class Tab1Page {
 
   searchForBook() {
     this.loading = true;
-    this.bookService.getBookData(this.searchText).pipe(take(1))
+    this.bookService.searchBookByTerm(this.searchText).pipe(take(1))
       .subscribe(data => {
         if (data) {
-          this.bookService.selectedBook$.next(data);
-          this.router.navigate(['book']);
+          this.bookService.bookList$.next(data);
+          this.router.navigate(['book-list']);
           this.loading = false;
           this.searchText = '';
         }

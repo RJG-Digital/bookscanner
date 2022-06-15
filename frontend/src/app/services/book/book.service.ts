@@ -10,6 +10,7 @@ import { Book } from 'src/app/models/book';
 export class BookService {
 
   public selectedBook$ = new BehaviorSubject<Book>(null);
+  public bookList$ = new BehaviorSubject<Book[]>([]);
 
   private endpoint = ''
   constructor(private endpointService: EndpointService, private http: HttpClient) {
@@ -18,5 +19,9 @@ export class BookService {
 
   public getBookData(isbn: string): Observable<Book> {
     return this.http.get<Book>(`${this.endpoint}/${isbn}`);
+  }
+
+  public searchBookByTerm(term: string): Observable<Book[]> {
+    return this.http.get<Book[]>(`${this.endpoint}/search/${term}`);
   }
 }
