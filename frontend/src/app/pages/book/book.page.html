@@ -14,6 +14,10 @@
     </ion-card-header>
     <ion-card-content>
       <img style="margin: auto" [src]="book.picture" />
+      <ion-button [disabled]="isFavorited" slot="end" (click)="addToFavorites()">
+        <ion-icon slot="icon-only" name="star"></ion-icon>
+      </ion-button>
+      {{isFavorited}}
       <ion-list>
         <ion-item>
           <ion-label>author</ion-label>

@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { takeUntil, take } from 'rxjs/operators';
 import { Book } from 'src/app/models/book';
 import { BookService } from 'src/app/services/book/book.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Component({
   selector: 'app-book',
@@ -11,8 +12,9 @@ import { BookService } from 'src/app/services/book/book.service';
 })
 export class BookPage implements OnInit, OnDestroy {
   public book: Book
+  public isFavorited = this.isInstorage();
   private unsubscribe = new Subject<void>();
-  constructor(private bookService: BookService) { }
+  constructor(private bookService: BookService, private storageService: StorageService) { }
 
   ngOnInit() {
     this.bookService.selectedBook$.pipe(takeUntil(this.unsubscribe))
@@ -22,6 +24,13 @@ export class BookPage implements OnInit, OnDestroy {
           this.book = book
         }
       })
+  }
+  public addToFavorites() {
+    this.storageService.addBook(this.book);
+  }
+
+  public isInstorage() {
+    return this.storageService.isFavorited(this.book);
   }
 
   ngOnDestroy(): void {
