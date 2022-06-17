@@ -13,8 +13,14 @@
       <ion-card-title>{{book.title}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <img style="margin: auto" [src]="book.picture" />
       <ion-list>
+        <ion-item>
+          <img [src]="book.picture" />
+          <ion-button *ngIf="!isFavorited" slot="end" (click)="addToFavorites()">
+            <ion-icon style="margin-right: 4px;" name="star"></ion-icon> Favorite
+          </ion-button>
+          <ion-note *ngIf="isFavorited" slot="end" color="primary">Favorited</ion-note>
+        </ion-item>
         <ion-item>
           <ion-label>author</ion-label>
           <ion-note slot="end" color="primary">{{book.author}}</ion-note>
