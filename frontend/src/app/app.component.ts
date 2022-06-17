@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { filter } from 'rxjs/operators';
 import { StorageService } from './services/storage/storage.service';
 
 @Component({
@@ -9,6 +10,10 @@ import { StorageService } from './services/storage/storage.service';
 export class AppComponent {
   constructor(private storageService: StorageService) {
     this.storageService.init();
-    this.storageService.loadBooks();
+    this.storageService.storageReady$
+      .pipe(filter(ready => ready))
+      .subscribe(() => {
+        this.storageService.loadBooks();
+      })
   }
 }

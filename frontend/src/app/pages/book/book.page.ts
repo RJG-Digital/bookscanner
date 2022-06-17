@@ -12,7 +12,7 @@ import { StorageService } from 'src/app/services/storage/storage.service';
 })
 export class BookPage implements OnInit, OnDestroy {
   public book: Book
-  public isFavorited = this.isInstorage();
+  public isFavorited = false;
   private unsubscribe = new Subject<void>();
   constructor(private bookService: BookService, private storageService: StorageService) { }
 
@@ -21,16 +21,18 @@ export class BookPage implements OnInit, OnDestroy {
       .subscribe(book => {
         if (book !== null) {
           console.log(book);
-          this.book = book
+          this.book = book;
+          this.storageService.favoritedBooks$.pipe(takeUntil(this.unsubscribe)).subscribe(favoritedBooks => {
+            if (favoritedBooks) {
+              this.isFavorited = favoritedBooks.find(b => b.title === this.book.title) ? true : false;
+            }
+          });
         }
       })
   }
+
   public addToFavorites() {
     this.storageService.addBook(this.book);
-  }
-
-  public isInstorage() {
-    return this.storageService.isFavorited(this.book);
   }
 
   ngOnDestroy(): void {

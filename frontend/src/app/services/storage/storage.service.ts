@@ -10,13 +10,14 @@ import { Book } from 'src/app/models/book';
 export class StorageService {
   public isFavorited$ = new BehaviorSubject<boolean>(false);
   public favoritedBooks$ = new BehaviorSubject<Book[]>([]);
+  public storageReady$ = new BehaviorSubject<boolean>(false);
 
-  constructor(private storage: Storage) {
-  }
+  constructor(private storage: Storage) { }
 
   public async init() {
     await this.storage.defineDriver(Cordovasqlitedriver);
     await this.storage.create();
+    this.storageReady$.next(true);
   }
 
   public async loadBooks(): Promise<void> {
@@ -29,12 +30,6 @@ export class StorageService {
     return books;
   }
 
-  public async isFavorited(book: Book): Promise<void> {
-    const books = await this.storage.get('books') || [];
-    const Foundbook = books.find(b => b === book) ? true : false
-    this.isFavorited$.next(Foundbook);
-  }
-
   public async addBook(book: Book): Promise<void> {
     const storedBooks = await this.getBooks();
     storedBooks.push(book);
@@ -42,9 +37,10 @@ export class StorageService {
     this.favoritedBooks$.next(storedBooks);
   }
 
-  public async removeBook(value: Book): Promise<void> {
+  public async removeBook(value: string): Promise<void> {
     const storedBooks = await this.getBooks();
-    const newBooks = storedBooks.filter(book => book !== value);
+    const newBooks = storedBooks.filter(book => book.title !== value);
     await this.storage.set('books', newBooks);
+    this.favoritedBooks$.next(newBooks);
   }
 }

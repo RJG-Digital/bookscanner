@@ -1,16 +1,24 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 2
+      Favorites
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-list *ngIf="books && books.length">
+    <ion-item style="margin:10px;" *ngFor="let book of books">
+      <ion-img (click)="viewBook(book)" style="margin:auto; height: 40px; width: 40px;" [src]="book.picture"></ion-img>
+      <ion-label (click)="viewBook(book)" style="margin-left: 10px;">{{book.title}}</ion-label>
+      <ion-button color="primary" (click)="removeFromFavorites(book.title)">Remove</ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="!books || !books.length">
+    <ion-item>
+      <ion-label>No favorites yet</ion-label>
+    </ion-item>
+  </ion-list>
 
 </ion-content>
