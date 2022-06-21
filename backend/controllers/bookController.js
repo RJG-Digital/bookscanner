@@ -141,6 +141,9 @@ const getBookByIsbn = asynchandler(async (req, res) => {
         if (error instanceof puppeteer.errors.TimeoutError) {
             res.status(404);
             throw new Error('book was not found.')
+        } else {
+            res.status(500);
+            throw new Error('An unknown error occurred.');
         }
     }
 });
@@ -271,6 +274,9 @@ const getBooksBySearchTerm = asynchandler(async (req, res) => {
         if (error instanceof puppeteer.errors.TimeoutError) {
             res.status(404);
             throw new Error('book was not found.')
+        } else {
+            res.status(500);
+            throw new Error('An unknown error occurred.');
         }
     }
 });
