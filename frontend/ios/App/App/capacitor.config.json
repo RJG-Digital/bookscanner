@@ -1,0 +1,6 @@
+{
+	"appId": "com.robertgannard.arscanner",
+	"appName": "AR Book Scanner",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}
