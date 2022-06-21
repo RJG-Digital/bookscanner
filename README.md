@@ -12,6 +12,9 @@ git add .
 git commit -m {commit message}
 git push heroku main
 
+# if Heroku is not found 
+heroku git:remote -a arscanner
+
 # to reset pupetter build packs
 heroku buildpacks:clear
 $ heroku buildpacks:add --index 1 https://github.com/jontewks/puppeteer-heroku-buildpack
