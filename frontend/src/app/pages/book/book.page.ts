@@ -13,6 +13,7 @@ import { StorageService } from 'src/app/services/storage/storage.service';
 export class BookPage implements OnInit, OnDestroy {
   public book: Book
   public isFavorited = false;
+  public isOnBookSelf = false;
   private unsubscribe = new Subject<void>();
   constructor(private bookService: BookService, private storageService: StorageService) { }
 
@@ -27,12 +28,21 @@ export class BookPage implements OnInit, OnDestroy {
               this.isFavorited = favoritedBooks.find(b => b.title === this.book.title) ? true : false;
             }
           });
+          this.storageService.bookShelf$.pipe(takeUntil(this.unsubscribe)).subscribe(bookSelfBooks => {
+            if(bookSelfBooks) {
+              this.isOnBookSelf = bookSelfBooks.find(b => b.title === this.book.title) ? true : false;
+            }
+          });
         }
       })
   }
 
   public addToFavorites() {
     this.storageService.addBook(this.book);
+  }
+
+  public addToBookShelf() {
+    this.storageService.addToBookSelf(this.book);
   }
 
   ngOnDestroy(): void {

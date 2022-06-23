@@ -10,6 +10,7 @@ import { Book } from 'src/app/models/book';
 export class StorageService {
   public isFavorited$ = new BehaviorSubject<boolean>(false);
   public favoritedBooks$ = new BehaviorSubject<Book[]>([]);
+  public bookShelf$ = new BehaviorSubject<Book[]>([]);
   public storageReady$ = new BehaviorSubject<boolean>(false);
 
   constructor(private storage: Storage) { }
@@ -25,8 +26,18 @@ export class StorageService {
     this.favoritedBooks$.next(books);
   }
 
+  public async loadBookShelf(): Promise<void> {
+    const books = await this.storage.get('bookshelf') || [];
+    this.favoritedBooks$.next(books);
+  }
+
   public async getBooks(): Promise<Book[]> {
     const books = await this.storage.get('books') || [];
+    return books;
+  }
+
+  public async getBookshelf(): Promise<Book[]> {
+    const books = await this.storage.get('bookshelf') || [];
     return books;
   }
 
@@ -37,10 +48,35 @@ export class StorageService {
     this.favoritedBooks$.next(storedBooks);
   }
 
+  public async addToBookSelf(book: Book): Promise<void> {
+    const storedBooks = await this.getBookshelf();
+    storedBooks.push(book);
+    await this.storage.set('bookshelf', storedBooks);
+    this.bookShelf$.next(storedBooks);
+  }
+
   public async removeBook(value: string): Promise<void> {
     const storedBooks = await this.getBooks();
     const newBooks = storedBooks.filter(book => book.title !== value);
     await this.storage.set('books', newBooks);
     this.favoritedBooks$.next(newBooks);
   }
+
+  public async removeFromBookShelf(value: string): Promise<void> {
+    const storedBooks = await this.getBookshelf();
+    const newBooks = storedBooks.filter(book => book.title !== value);
+    await this.storage.set('bookshelf', newBooks);
+    this.bookShelf$.next(newBooks);
+  }
+
+  public async updateIsRead(bookTitle: string, isRead: boolean) {
+    const storedBooks = await this.getBookshelf();
+    const foundBook = storedBooks.find(book => book.title === bookTitle);
+    if(foundBook) {
+      foundBook.isRead = isRead;
+      const index = storedBooks.findIndex(book => book.title === bookTitle);
+      storedBooks[index] = foundBook;
+      this.bookShelf$.next(storedBooks);
+    }
+  } 
 }
