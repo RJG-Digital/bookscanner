@@ -52,7 +52,6 @@ export class Tab2Page implements OnInit, OnDestroy {
       case 'unTaken':
         this.books = await this.storageService.getQuizNotTakenBooks();
         break;
-
       case 'all':
         this.books = await this.storageService.getBookshelf();
         break;
