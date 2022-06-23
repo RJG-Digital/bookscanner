@@ -21,31 +21,14 @@ export class StorageService {
     this.storageReady$.next(true);
   }
 
-  public async loadBooks(): Promise<void> {
-    const books = await this.storage.get('books') || [];
-    this.favoritedBooks$.next(books);
-  }
-
   public async loadBookShelf(): Promise<void> {
     const books = await this.storage.get('bookshelf') || [];
-    this.favoritedBooks$.next(books);
-  }
-
-  public async getBooks(): Promise<Book[]> {
-    const books = await this.storage.get('books') || [];
-    return books;
+    this.bookShelf$.next(books);
   }
 
   public async getBookshelf(): Promise<Book[]> {
     const books = await this.storage.get('bookshelf') || [];
     return books;
-  }
-
-  public async addBook(book: Book): Promise<void> {
-    const storedBooks = await this.getBooks();
-    storedBooks.push(book);
-    await this.storage.set('books', storedBooks);
-    this.favoritedBooks$.next(storedBooks);
   }
 
   public async addToBookSelf(book: Book): Promise<void> {
@@ -55,13 +38,6 @@ export class StorageService {
     this.bookShelf$.next(storedBooks);
   }
 
-  public async removeBook(value: string): Promise<void> {
-    const storedBooks = await this.getBooks();
-    const newBooks = storedBooks.filter(book => book.title !== value);
-    await this.storage.set('books', newBooks);
-    this.favoritedBooks$.next(newBooks);
-  }
-
   public async removeFromBookShelf(value: string): Promise<void> {
     const storedBooks = await this.getBookshelf();
     const newBooks = storedBooks.filter(book => book.title !== value);
@@ -69,14 +45,27 @@ export class StorageService {
     this.bookShelf$.next(newBooks);
   }
 
-  public async updateIsRead(bookTitle: string, isRead: boolean) {
+  public async updateIsTestTaken(bookTitle: string, isTestTaken: boolean) {
     const storedBooks = await this.getBookshelf();
     const foundBook = storedBooks.find(book => book.title === bookTitle);
-    if(foundBook) {
-      foundBook.isRead = isRead;
+    if (foundBook) {
+      foundBook.isTestTaken = isTestTaken;
       const index = storedBooks.findIndex(book => book.title === bookTitle);
       storedBooks[index] = foundBook;
+      await this.storage.set('bookshelf', storedBooks);
       this.bookShelf$.next(storedBooks);
     }
-  } 
+  }
+
+  public async getQuizTakenBooks() {
+    const allBooks = await this.getBookshelf();
+    const quizTakenBooks = allBooks.filter(b => b.isTestTaken);
+    return quizTakenBooks;
+  }
+
+  public async getQuizNotTakenBooks() {
+    const allBooks = await this.getBookshelf();
+    const quizNotTakenBooks = allBooks.filter(b => !b.isTestTaken);
+    return quizNotTakenBooks;
+  }
 }

@@ -7,23 +7,5 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list *ngIf="books && books.length">
-    <ion-item *ngFor="let book of books">
-      <img [src]="book.picture"/>
-      <ion-label>{{book.title}}</ion-label>
-      <ion-label>{{book.quizNumber}}</ion-label>
-      <ion-label>{{book.points}}</ion-label>
-      <ion-icon *ngIf="book.isRead" name="checkmark-circle-outline"></ion-icon>
 
-      <ion-button id="click-trigger">Left-Click Me</ion-button>
-      <ion-popover trigger="click-trigger" triggerAction="click">
-        <ng-template>
-          <ion-content class="ion-padding">Hello World!</ion-content>
-        </ng-template>
-      </ion-popover>
-    </ion-item>
-  </ion-list>
-
-  <h1 style="text-align:center" *ngIf="!books || !books.length">No Books are currently on your Bookshelf</h1>
-  <h5 style="text-align:center">Scan or search for books to add them to your bookshelf.</h5>
 </ion-content>

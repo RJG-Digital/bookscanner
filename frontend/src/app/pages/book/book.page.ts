@@ -29,16 +29,12 @@ export class BookPage implements OnInit, OnDestroy {
             }
           });
           this.storageService.bookShelf$.pipe(takeUntil(this.unsubscribe)).subscribe(bookSelfBooks => {
-            if(bookSelfBooks) {
+            if (bookSelfBooks) {
               this.isOnBookSelf = bookSelfBooks.find(b => b.title === this.book.title) ? true : false;
             }
           });
         }
       })
-  }
-
-  public addToFavorites() {
-    this.storageService.addBook(this.book);
   }
 
   public addToBookShelf() {

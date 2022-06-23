@@ -13,7 +13,6 @@ export class AppComponent {
     this.storageService.storageReady$
       .pipe(filter(ready => ready))
       .subscribe(() => {
-        this.storageService.loadBooks();
         this.storageService.loadBookShelf();
       })
   }
