@@ -26,16 +26,19 @@ export class Tab2Page implements OnInit, OnDestroy {
       }
     })
   }
-  public removeFromSelf(bookTitle: string) {
-    this.storageService.removeFromBookShelf(bookTitle)
+  public async removeFromSelf(bookTitle: string) {
+    await this.storageService.removeFromBookShelf(bookTitle);
+    await this.filterBooks(this.filterType);
   }
 
-  public markTaken(bookTitle: string) {
-    this.storageService.updateIsTestTaken(bookTitle, true);
+  public async markTaken(bookTitle: string) {
+    await this.storageService.updateIsTestTaken(bookTitle, true);
+    await this.filterBooks(this.filterType);
   }
 
-  public markUnTaken(bookTitle: string) {
-    this.storageService.updateIsTestTaken(bookTitle, false);
+  public async markUnTaken(bookTitle: string) {
+    await this.storageService.updateIsTestTaken(bookTitle, false);
+    await this.filterBooks(this.filterType);
   }
 
   public viewBook(book: Book): void {
@@ -45,15 +48,25 @@ export class Tab2Page implements OnInit, OnDestroy {
 
   public async onFilterChange(event) {
     this.filterType = event.detail.value;
-    switch (event.detail.value) {
+    await this.filterBooks(event.detail.value);
+  }
+
+  private async filterBooks(filterType: string) {
+    console.log(this.filterType);
+    switch (filterType) {
       case 'taken':
         this.books = await this.storageService.getQuizTakenBooks();
+        console.log('Taken ', this.books);
         break;
       case 'unTaken':
+
         this.books = await this.storageService.getQuizNotTakenBooks();
+        console.log('Not Taken ', this.books);
         break;
       case 'all':
+
         this.books = await this.storageService.getBookshelf();
+        console.log('All ', this.books);
         break;
       default: break;
     }

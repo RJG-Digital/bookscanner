@@ -17,15 +17,10 @@
             Quiz Not Taken
           </ion-select-option>
         </ion-select>
+        <ion-icon color="primary " style="margin-right: 6px;" name="filter-outline"></ion-icon>
       </ion-item>
     </ion-list>
-    <!-- filter Icons -->
-    <ion-icon *ngIf="filterType === 'all'" slot="end" style="margin-right: 15px;" name="bookmarks-outline"
-      color="primary">
-    </ion-icon>
-    <ion-icon *ngIf="filterType === 'unTaken'" slot="end" style="margin-right: 15px;" name="trophy"></ion-icon>
-    <ion-icon *ngIf="filterType === 'taken'" slot="end" style="margin-right: 15px;" name="trophy" class="trophy-icon">
-    </ion-icon>
+
 
     <ion-title>
       Bookshelf
@@ -34,56 +29,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <!-- <ion-list *ngIf="books && books.length">
-    <ion-item style="margin:10px;" *ngFor="let book of books; let i = index">
-      <ion-list style="flex:auto;">
-        <ion-item>
-          <ion-img (click)="viewBook(book)" style="margin:auto; height: 40px; width: 40px;" [src]="book.picture">
-          </ion-img>
-          <ion-label (click)="viewBook(book)" style="margin-left: 10px;">{{book.title}}</ion-label>
-          <ion-icon [id]="i" name="ellipsis-vertical-outline"></ion-icon>
-          <ion-popover [trigger]="i">
-            <ng-template>
-              <ion-content>
-                <ion-list>
-                  <ion-list-header>
-                    <ion-label>{{book.title}}</ion-label>
-                  </ion-list-header>
-                  <ion-item [button]="true" [detail]="false" (click)="removeFromSelf(book.title)">
-                    <ion-icon style="margin-right: 4px;" name="trash-outline" color="danger"></ion-icon> Remove from
-                    bookshelf
-                  </ion-item>
-                  <ion-item [button]="true" [detail]="false" *ngIf="!book.isTestTaken" (click)="markTaken(book.title)">
-                    <ion-icon class="trophy-icon" style="margin-right: 4px;" name="trophy"></ion-icon> Mark Test Taken
-                  </ion-item>
-                  <ion-item [button]="true" [detail]="false" *ngIf="book.isTestTaken" (click)="markUnTaken(book.title)">
-                    <ion-icon style="margin-right: 4px;" name="trophy"></ion-icon> Make Test Untaken
-                  </ion-item>
-                </ion-list>
-              </ion-content>
-            </ng-template>
-          </ion-popover>
-        </ion-item>
-        <ion-item>
-          <ion-label (click)="viewBook(book)" style="margin-left: 10px;"> Quiz #: <ion-note>{{book.quizNumber}}
-            </ion-note>
-          </ion-label>
-          <ion-label (click)="viewBook(book)" style="margin-left: 10px;">Points: <ion-note>{{book.points}}</ion-note>
-          </ion-label>
-          <ion-icon *ngIf="!book.isTestTaken" style="margin-left: 10px;" name="trophy"></ion-icon>
-          <ion-icon *ngIf="book.isTestTaken" style="margin-left: 10px;" name="trophy" class="trophy-icon"></ion-icon>
-        </ion-item>
-      </ion-list>
-    </ion-item>
-  </ion-list>
-
-  <ion-list *ngIf="!books || !books.length">
-    <ion-item>
-      <ion-label>No favorites yet</ion-label>
-    </ion-item>
-  </ion-list> -->
-
-  <ion-accordion-group>
+  <ion-accordion-group *ngIf="books && books.length">
     <ion-accordion *ngFor="let book of books; let i = index;" [value]="book">
       <ion-item slot="header" color="light">
         <ion-img style="margin:auto; height: 40px; width: 40px;" [src]="book.picture">
@@ -91,43 +37,52 @@
         <ion-label>{{book.title}}</ion-label>
         <ion-icon *ngIf="!book.isTestTaken" style="margin-left: 10px;" name="trophy"></ion-icon>
         <ion-icon *ngIf="book.isTestTaken" style="margin-left: 10px;" name="trophy" class="trophy-icon"></ion-icon>
+
       </ion-item>
       <ion-list slot="content">
         <ion-item>
           <ion-label>Points: </ion-label>
-          <ion-note>{{book.points}}</ion-note>
+          <ion-label>{{book.points}}</ion-label>
         </ion-item>
         <ion-item>
           <ion-label>Quiz #: </ion-label>
-          <ion-note>{{book.quizNumber}}</ion-note>
+          <ion-label>{{book.quizNumber}}</ion-label>
         </ion-item>
-        <ion-item>
-          <ion-button (click)="viewBook(book)"><ion-icon name="book-outline"></ion-icon></ion-button>
-          <ion-button [id]="i"><ion-icon name="settings-outline"></ion-icon></ion-button>
-          <ion-popover [trigger]="i">
-            <ng-template>
-              <ion-content>
-                <ion-list>
-                  <ion-list-header>
-                    <ion-label>{{book.title}}</ion-label>
-                  </ion-list-header>
-                  <ion-item [button]="true" [detail]="false" (click)="removeFromSelf(book.title)">
-                    <ion-icon style="margin-right: 4px;" name="trash-outline" color="danger"></ion-icon> Remove from
-                    bookshelf
-                  </ion-item>
-                  <ion-item [button]="true" [detail]="false" *ngIf="!book.isTestTaken" (click)="markTaken(book.title)">
-                    <ion-icon class="trophy-icon" style="margin-right: 4px;" name="trophy"></ion-icon> Mark Test Taken
-                  </ion-item>
-                  <ion-item [button]="true" [detail]="false" *ngIf="book.isTestTaken" (click)="markUnTaken(book.title)">
-                    <ion-icon style="margin-right: 4px;" name="trophy"></ion-icon> Make Test Untaken
-                  </ion-item>
-                </ion-list>
-              </ion-content>
-            </ng-template>
-          </ion-popover>
-        </ion-item>
+
+        <ion-button expand="block" slot="start" color="tertiary" [id]="i">
+          <ion-icon name="settings-outline"></ion-icon>
+        </ion-button>
+        <ion-popover [trigger]="i" dismiss-on-select="true">
+          <ng-template>
+            <ion-content>
+              <ion-list>
+                <ion-list-header>
+                  <ion-label>{{book.title}}</ion-label>
+                </ion-list-header>
+                <ion-item [button]="true" [detail]="false" (click)="removeFromSelf(book.title)">
+                  <ion-icon style="margin-right: 6px;" name="trash-outline" color="danger"></ion-icon> Remove from
+                  bookshelf
+                </ion-item>
+                <ion-item [button]="true" [detail]="false" *ngIf="!book.isTestTaken" (click)="markTaken(book.title)">
+                  <ion-icon class="trophy-icon" style="margin-right: 4px;" name="trophy"></ion-icon> Mark Quiz Taken
+                </ion-item>
+                <ion-item [button]="true" [detail]="false" *ngIf="book.isTestTaken" (click)="markUnTaken(book.title)">
+                  <ion-icon style="margin-right: 6px;" name="trophy"></ion-icon> Mark Quiz Not Taken
+                </ion-item>
+                <ion-item [button]="true" [detail]="false" (click)="viewBook(book)">
+                  <ion-icon style="margin-right: 6px;" name="book-outline" color="tertiary"></ion-icon> View Full Book
+                  Details
+                </ion-item>
+              </ion-list>
+            </ion-content>
+          </ng-template>
+        </ion-popover>
       </ion-list>
     </ion-accordion>
   </ion-accordion-group>
+  <h4 style="text-align: center; height: 80%; position: absolute; left: 30%; transform: translateY(50%);"
+    *ngIf="!books || !books.length">
+    No Books To Show
+  </h4>
 
 </ion-content>
