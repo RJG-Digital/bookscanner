@@ -13,14 +13,14 @@
       <h1 style="margin:auto; text-align: center;">Tap Here To Scan</h1><br>
     </ion-row>
     <ion-row *ngIf="!loading">
-      <ion-item-divider>
-        <span style="position: absolute;left: 50%;transform: translateY(90%);;">OR</span>
-      </ion-item-divider>
+
+        <span style="position: absolute;left: 50%;transform: translateY(90%);">OR</span>
+
     </ion-row>
 
     <ion-row *ngIf="!loading">
       <ion-input style="text-align: center; margin: 100px 0 20px 0 ;" clearInput [(ngModel)]="searchText"
-        placeholder="Search By Name or ISBN">
+        placeholder="Search by title, author, or ISBN here...">
       </ion-input>
     </ion-row>
     <ion-row *ngIf="!loading">
