@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil, take } from 'rxjs/operators';
-import { Book } from 'src/app/models/book';
+import { Book, setLexileMap } from 'src/app/models/book';
 import { BookService } from 'src/app/services/book/book.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 
@@ -14,7 +14,9 @@ export class BookPage implements OnInit, OnDestroy {
   public book: Book
   public isFavorited = false;
   public isOnBookSelf = false;
+  public lexileMap = setLexileMap();
   private unsubscribe = new Subject<void>();
+
   constructor(private bookService: BookService, private storageService: StorageService) { }
 
   ngOnInit() {

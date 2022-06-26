@@ -43,6 +43,11 @@
         </ion-item>
 
         <ion-item>
+          <ion-label>Lexile Level</ion-label>
+          <ion-note slot="end" color="primary">{{lexileMap.get(book.level)}}</ion-note>
+        </ion-item>
+
+        <ion-item>
           <ion-label>Points</ion-label>
           <ion-note slot="end" color="primary">{{book.points}}</ion-note>
         </ion-item>
