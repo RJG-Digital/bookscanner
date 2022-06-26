@@ -31,7 +31,7 @@
           <ion-grid>
             <ion-row>
               <ion-col id="desc-col">
-                <span>{{book.description}}</span>
+                <ion-note>{{book.description}}</ion-note>
               </ion-col>
             </ion-row>
           </ion-grid>
@@ -62,7 +62,7 @@
           <ion-grid>
             <ion-row *ngFor="let type of book.quizTypes">
               <ion-col>
-                <span>{{type}}</span>
+                <ion-note>{{type}}</ion-note>
               </ion-col>
             </ion-row>
           </ion-grid>
@@ -88,7 +88,7 @@
           <ion-grid>
             <ion-row *ngFor="let topic of book.topics">
               <ion-col>
-                <span>{{topic}}</span>
+                <ion-note>{{topic}}</ion-note>
               </ion-col>
             </ion-row>
           </ion-grid>
@@ -99,7 +99,7 @@
           <ion-grid>
             <ion-row *ngFor="let series of book.series">
               <ion-col>
-                <span>{{series}}</span>
+                <ion-note>{{series}}</ion-note>
               </ion-col>
             </ion-row>
           </ion-grid>
