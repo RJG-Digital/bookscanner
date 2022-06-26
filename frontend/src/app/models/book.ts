@@ -13,4 +13,6 @@ export interface Book {
   title: string;
   topics: string[];
   wordCount: number;
+  isTestTaken?: boolean
 }
+

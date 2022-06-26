@@ -26,12 +26,15 @@ export class Tab1Page {
     this.barcodeScanner
       .scan()
       .then((barcodeData) => {
-        console.log(barcodeData.text);
-        this.bookService.getBookData(barcodeData.text).pipe(take(1))
+        if(barcodeData && barcodeData.text && barcodeData.text !== '') {
+          this.bookService.getBookData(barcodeData.text).pipe(take(1))
           .subscribe(data => {
             if (data) {
               this.bookService.selectedBook$.next(data);
               this.router.navigate(['book']);
+              this.loading = false;
+              this.searchText = '';
+            } else {
               this.loading = false;
               this.searchText = '';
             }
@@ -47,6 +50,10 @@ export class Tab1Page {
               this.searchText = '';
             }
           });
+        } else {
+          this.loading = false;
+        }
+
       })
   }
 

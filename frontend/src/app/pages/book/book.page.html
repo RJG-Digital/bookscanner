@@ -16,10 +16,10 @@
       <ion-list>
         <ion-item>
           <img [src]="book.picture" />
-          <ion-button *ngIf="!isFavorited" slot="end" (click)="addToFavorites()">
-            <ion-icon style="margin-right: 4px;" name="star"></ion-icon> Favorite
+          <ion-button *ngIf="!isOnBookSelf" slot="end" (click)="addToBookShelf()">
+            <ion-icon style="margin-right: 4px;" name="book-outline"></ion-icon> Add To Book Shelf
           </ion-button>
-          <ion-note *ngIf="isFavorited" slot="end" color="primary">Favorited</ion-note>
+          <ion-note *ngIf="isOnBookSelf" slot="end" color="primary">On BookSelf</ion-note>
         </ion-item>
         <ion-item>
           <ion-label>author</ion-label>
