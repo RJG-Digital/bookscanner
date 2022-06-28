@@ -142,7 +142,7 @@ const getBookByIsbn = asynchandler(async (req, res) => {
             res.status(404);
             throw new Error('book was not found.')
         } else {
-            console.log(error.error.message);
+            console.log(error.message);
             res.status(500);
             throw new Error('An unknown error occurred.');
         }
@@ -276,7 +276,7 @@ const getBooksBySearchTerm = asynchandler(async (req, res) => {
             res.status(404);
             throw new Error('book was not found.')
         } else {
-            console.log(error.error.message);
+            console.log(error.message);
             res.status(500);
             throw new Error('An unknown error occurred.');
         }
