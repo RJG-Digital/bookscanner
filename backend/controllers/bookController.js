@@ -10,20 +10,7 @@ import {
     SEARCH_INPUT_FIELD_ID,
     SUBMIT_SEARCH_BUTTON_ID,
     BOOK_LIST_TITLE_ID,
-    BOOK_LEVEL_ID,
     BOOK_PICTURE_ID,
-    BOOK_INTEREST_LEVEL_ID,
-    BOOK_POINTS_ID,
-    BOOK_WORD_COUNT_ID,
-    BOOK_FICTION_NONFICTION_ID,
-    BOOK_TITLE_ID,
-    BOOK_AUTHOR_ID,
-    BOOK_DESCRIPTION_ID,
-    BOOK_QUIZ_NUMBER_ID,
-    BOOK_QUIZ_TYPE_ID,
-    BOOK_TOPIC_ID,
-    BOOK_SERIES_ID,
-    BOOK_LANGUAGE_CODE_ID
 } from '../config.js'
 
 dotenv.config();
@@ -151,16 +138,16 @@ const getBookByIsbn = asynchandler(async (req, res) => {
 });
 
 const getBooksBySearchTerm = asynchandler(async (req, res) => {
+    const foundBooks = [];
+    const { term } = req.params;
+    const browser = await puppeteer.launch({
+        headless: true,
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox'
+        ],
+    });
     try {
-        const foundBooks = [];
-        const { term } = req.params;
-        const browser = await puppeteer.launch({
-            headless: true,
-            args: [
-                '--no-sandbox',
-                '--disable-setuid-sandbox'
-            ],
-        });
         const page = await browser.newPage();
         await page.goto(ACCELERATED_READER_URL);
         await page.click(ACCEPT_COOKIE_ID); // accept cookies
@@ -273,6 +260,7 @@ const getBooksBySearchTerm = asynchandler(async (req, res) => {
             throw new Error('book was not found.')
         }
     } catch (error) {
+        await browser.close();
         if (error instanceof puppeteer.errors.TimeoutError) {
             res.status(404);
             throw new Error('book was not found.')
