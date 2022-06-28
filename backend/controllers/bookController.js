@@ -29,15 +29,15 @@ import {
 dotenv.config();
 
 const getBookByIsbn = asynchandler(async (req, res) => {
+    const { isbn } = req.params;
+    const browser = await puppeteer.launch({
+        headless: true,
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox'
+        ],
+    });
     try {
-        const { isbn } = req.params;
-        const browser = await puppeteer.launch({
-            headless: true,
-            args: [
-                '--no-sandbox',
-                '--disable-setuid-sandbox'
-            ],
-        });
         const page = await browser.newPage();
         await page.goto(ACCELERATED_READER_URL);
         await page.click(ACCEPT_COOKIE_ID); // accept cookies
@@ -138,6 +138,7 @@ const getBookByIsbn = asynchandler(async (req, res) => {
             throw new Error('book was not found.')
         }
     } catch (error) {
+        await browser.close();
         if (error instanceof puppeteer.errors.TimeoutError) {
             res.status(404);
             throw new Error('book was not found.')
