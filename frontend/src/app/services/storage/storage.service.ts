@@ -88,11 +88,15 @@ export class StorageService {
 
   public async addToRecents(book: Book) {
     const books = await this.storage.get('recents') || [];
-    if (books.length === 10) {
-      books.pop();
-    }
-    if (books[0].title != book.title && books[0].picture !== book.picture) {
+    if (books.length === 0) {
       books.unshift(book);
+    } else {
+      if (books[0].title !== book.title && books[0].picture !== book.picture) {
+        books.unshift(book);
+      }
+      if (books.length === 11) {
+        books.pop();
+      }
     }
     await this.storage.set('recents', books);
     this.recents$.next(books);

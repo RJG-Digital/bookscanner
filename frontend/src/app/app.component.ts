@@ -15,7 +15,6 @@ export class AppComponent {
       .subscribe(() => {
         this.storageService.loadBookShelf();
         this.storageService.loadRecents();
-        //this.storageService.resetRecents();
       })
   }
 }
