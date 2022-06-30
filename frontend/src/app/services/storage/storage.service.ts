@@ -12,6 +12,7 @@ export class StorageService {
   public favoritedBooks$ = new BehaviorSubject<Book[]>([]);
   public bookShelf$ = new BehaviorSubject<Book[]>([]);
   public storageReady$ = new BehaviorSubject<boolean>(false);
+  public recents$ = new BehaviorSubject<Book[]>([]);
 
   constructor(private storage: Storage) { }
 
@@ -24,6 +25,15 @@ export class StorageService {
   public async loadBookShelf(): Promise<void> {
     const books = await this.storage.get('bookshelf') || [];
     this.bookShelf$.next(books);
+  }
+
+  public async loadRecents(): Promise<void> {
+    const books = await this.storage.get('recents') || [];
+    this.recents$.next(books);
+  }
+  public async resetRecents(): Promise<void> {
+    const books = await this.storage.set('recents', null) || [];
+    this.recents$.next(books);
   }
 
   public async getBookshelf(): Promise<Book[]> {
@@ -67,5 +77,24 @@ export class StorageService {
     const allBooks = await this.getBookshelf();
     const quizNotTakenBooks = allBooks.filter(b => !b.isTestTaken);
     return quizNotTakenBooks;
+  }
+
+  public async removeFromRecent(index: number): Promise<void> {
+    const recents = await this.storage.get('recents') || [];
+    recents.splice(index, 1);
+    await this.storage.set('recents', recents);
+    this.recents$.next(recents);
+  }
+
+  public async addToRecents(book: Book) {
+    const books = await this.storage.get('recents') || [];
+    if (books.length === 10) {
+      books.pop();
+    }
+    if (books[0].title != book.title && books[0].picture !== book.picture) {
+      books.unshift(book);
+    }
+    await this.storage.set('recents', books);
+    this.recents$.next(books);
   }
 }
