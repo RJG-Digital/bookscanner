@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { BookPageRoutingModule } from './book-routing.module';
 
 import { BookPage } from './book.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    BookPageRoutingModule
+    BookPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [BookPage]
 })
-export class BookPageModule {}
+export class BookPageModule { }

@@ -13,7 +13,9 @@ export interface Book {
   title: string;
   topics: string[];
   wordCount: number;
-  isTestTaken?: boolean
+  isTestTaken?: boolean;
+  rating: string;
+  isbns: string[];
 }
 
 export function setLexileMap() {

@@ -24,6 +24,7 @@ export class BookPage implements OnInit, OnDestroy {
       .subscribe(book => {
         if (book !== null) {
           this.book = book;
+          console.log(book);
           this.storageService.favoritedBooks$.pipe(takeUntil(this.unsubscribe)).subscribe(favoritedBooks => {
             if (favoritedBooks) {
               this.isFavorited = favoritedBooks.find(b => b.title === this.book.title) ? true : false;

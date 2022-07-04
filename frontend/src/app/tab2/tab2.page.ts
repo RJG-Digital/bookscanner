@@ -68,6 +68,10 @@ export class Tab2Page implements OnInit, OnDestroy {
     }
   }
 
+  public goHome() {
+    this.router.navigate(['/'])
+  }
+
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
