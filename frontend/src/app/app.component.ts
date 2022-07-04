@@ -14,6 +14,7 @@ export class AppComponent {
       .pipe(filter(ready => ready))
       .subscribe(() => {
         this.storageService.loadBookShelf();
+        this.storageService.loadRecents();
       })
   }
 }

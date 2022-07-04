@@ -1,5 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <img slot="start" style="height: 50px; margin:auto 10px" src="../../assets/images/app_logo_trans.png">
     <ion-title>
       AR Scanner
     </ion-title>
@@ -7,33 +8,39 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-grid>
+  <ion-card color="tertiary" (click)="(scan())" style="margin:20px; height: 100px; cursor: pointer;" *ngIf="!loading">
+    <ion-card-content>
+      <ion-row>
+        <ion-icon style="font-size: 60px; margin:10px 0 0 10px" name="barcode-outline"></ion-icon>
+        <h1 style=" margin: 15px 10px 0 10px">Scan A Book!</h1>
+      </ion-row>
+      <p style="margin: -25px 10px 10px 80px; font-size: 12px;">Scan a book with your phone camera.</p>
+    </ion-card-content>
+  </ion-card>
+  <ion-row style="height: 80px;" *ngIf="!loading">
+    <ion-input style="text-align: center;" clearInput [(ngModel)]="searchText"
+      placeholder="Search by title, author, or ISBN here...">
+    </ion-input>
+  </ion-row>
+  <ion-button *ngIf="!loading" expand="block" style="margin: 20px" [disabled]="!searchText || searchText === ''"
+    (click)="searchForBook()">Search</ion-button>
 
-    <ion-row *ngIf="!loading" style="height: calc(50vh - 200px);" (click)="(scan())">
-      <h1 style="margin:auto; text-align: center;">Tap Here To Scan</h1><br>
-    </ion-row>
-    <ion-row *ngIf="!loading">
+  <ion-row *ngIf="loading" style="height: calc(100vh - 200px);">
+    <span *ngIf="loading" style="margin:auto;">
+      <ion-spinner style="margin:auto;" name="dots"></ion-spinner>
+    </span>
+  </ion-row>
+  <ion-row style="margin: 20px;" *ngIf="!loading">
+    <ion-note>Recents</ion-note>
+  </ion-row>
 
-        <span style="position: absolute;left: 50%;transform: translateY(90%);">OR</span>
-
-    </ion-row>
-
-    <ion-row *ngIf="!loading">
-      <ion-input style="text-align: center; margin: 100px 0 20px 0 ;" clearInput [(ngModel)]="searchText"
-        placeholder="Search by title, author, or ISBN here...">
-      </ion-input>
-    </ion-row>
-    <ion-row *ngIf="!loading">
-      <ion-button [disabled]="!searchText || searchText === ''" style="width: 100%; margin: 20px;"
-        (click)="searchForBook()">Search</ion-button>
-    </ion-row>
-    <ion-row *ngIf="loading" style="height: calc(100vh - 200px);">
-      <span *ngIf="loading" style="margin:auto;">
-        <ion-spinner style="margin:auto;" name="dots"></ion-spinner>
-      </span>
-    </ion-row>
-
-  </ion-grid>
-
+  <ion-list style="margin: 20px;" *ngIf="recents && recents.length && !loading">
+    <ion-item *ngFor="let recent of recents; let i = index">
+      <ion-img (click)="viewBook(recent)" style="margin:5px 10px 5px 0; height:50px" [src]="recent.picture"></ion-img>
+      <ion-note (click)="viewBook(recent)" style="margin:auto auto auto 0">{{recent.title}}</ion-note>
+      <ion-icon (click)="deleteRecent(i)" color="danger" name="trash-outline"></ion-icon>
+    </ion-item>
+  </ion-list>
+  <h4 style="text-align: center;" *ngIf="(!recents || !recents.length) && !loading">No Recent Books</h4>
 
 </ion-content>

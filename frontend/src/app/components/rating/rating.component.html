@@ -1,0 +1,6 @@
+<ion-row *ngIf="rating !=='Not yet rated.'">
+  <ion-icon color="primary" *ngFor="let star of stars" [name]="star"></ion-icon>
+</ion-row>
+<ion-row *ngIf="rating ==='Not yet rated.'">
+  <ion-note color="primary" style="font-size: 11px;">{{rating}}</ion-note>
+</ion-row>

@@ -23,8 +23,8 @@ export class BookPage implements OnInit, OnDestroy {
     this.bookService.selectedBook$.pipe(takeUntil(this.unsubscribe))
       .subscribe(book => {
         if (book !== null) {
-          console.log(book);
           this.book = book;
+          console.log(book);
           this.storageService.favoritedBooks$.pipe(takeUntil(this.unsubscribe)).subscribe(favoritedBooks => {
             if (favoritedBooks) {
               this.isFavorited = favoritedBooks.find(b => b.title === this.book.title) ? true : false;
@@ -35,6 +35,7 @@ export class BookPage implements OnInit, OnDestroy {
               this.isOnBookSelf = bookSelfBooks.find(b => b.title === this.book.title) ? true : false;
             }
           });
+          this.storageService.addToRecents(this.book);
         }
       })
   }

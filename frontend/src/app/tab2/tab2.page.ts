@@ -52,24 +52,24 @@ export class Tab2Page implements OnInit, OnDestroy {
   }
 
   private async filterBooks(filterType: string) {
-    console.log(this.filterType);
     switch (filterType) {
       case 'taken':
         this.books = await this.storageService.getQuizTakenBooks();
-        console.log('Taken ', this.books);
         break;
       case 'unTaken':
 
         this.books = await this.storageService.getQuizNotTakenBooks();
-        console.log('Not Taken ', this.books);
         break;
       case 'all':
 
         this.books = await this.storageService.getBookshelf();
-        console.log('All ', this.books);
         break;
       default: break;
     }
+  }
+
+  public goHome() {
+    this.router.navigate(['/'])
   }
 
   ngOnDestroy(): void {

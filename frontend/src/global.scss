@@ -28,3 +28,22 @@
 .trophy-icon {
   color: goldenrod;
 }
+
+.body {
+  text-transform: none;
+  text-decoration: none;
+}
+
+ion-button {
+  text-transform: none;
+}
+
+.tab-selected {
+  ion-icon {
+    padding: 10px;
+    border-radius: 10px;
+    background: #6370ff;
+    color: white;
+  }
+
+}
