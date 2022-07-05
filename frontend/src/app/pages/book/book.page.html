@@ -8,125 +8,119 @@
 </ion-header>
 
 <ion-content fullscreen>
-  <ion-card *ngIf="book">
-    <ion-card-header>
-      <ion-card-title>{{book.title}}</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list>
-        <ion-item>
-          <img style="margin:5px 0;" [src]="book.picture" />
-          <ion-button *ngIf="!isOnBookSelf" style="margin:auto;" (click)="addToBookShelf()">
-            <ion-icon style="margin: 4px;" name="book-outline"></ion-icon> Add To Book Shelf
-          </ion-button>
-          <ion-note *ngIf="isOnBookSelf" slot="end" color="primary">On BookSelf</ion-note>
-        </ion-item>
-        <ion-item>
-          <ion-label slot="start" style="margin-right:10px;">author</ion-label>
-          <ion-note style="margin:auto auto auto 0;" color="primary">{{book.author}}</ion-note>
-        </ion-item>
+  <h3 *ngIf="book" style="margin-left: 25px;">{{book.title}}</h3>
+  <ion-list *ngIf="book">
+    <ion-item>
+      <img style="margin:5px 0;" [src]="book.picture" />
+      <ion-button *ngIf="!isOnBookSelf" style="margin:auto;" (click)="addToBookShelf()">
+        <ion-icon style="margin: 4px;" name="book-outline"></ion-icon> Add To Book Shelf
+      </ion-button>
+      <ion-note *ngIf="isOnBookSelf" slot="end" color="primary">On BookSelf</ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-label slot="start" style="margin-right:10px;">author</ion-label>
+      <ion-note style="margin:auto auto auto 0;" color="primary">{{book.author}}</ion-note>
+    </ion-item>
 
-        <ion-item>
-          <ion-label>Summary</ion-label>
-          <ion-grid>
-            <ion-row>
-              <ion-col id="desc-col">
-                <ion-note style="font-size: 11px;">{{book.description}}</ion-note>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-item>
+    <ion-item>
+      <ion-label>Summary</ion-label>
+      <ion-grid>
+        <ion-row>
+          <ion-col id="desc-col">
+            <ion-note style="font-size: 16px;">{{book.description}}</ion-note>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
 
-        <ion-item>
-          <ion-label slot="start" style="margin-right:10px;">Reading Level</ion-label>
-          <ion-note style="margin:auto auto auto 0;" color="primary">{{book.level}}</ion-note>
-        </ion-item>
+    <ion-item>
+      <ion-label slot="start" style="margin-right:10px;">Reading Level</ion-label>
+      <ion-note style="margin:auto auto auto 0;" color="primary">{{book.level}}</ion-note>
+    </ion-item>
 
-        <ion-item>
-          <ion-label slot="start" style="margin-right:10px;">Lexile Level</ion-label>
-          <ion-note style="margin:auto auto auto 0;" color="primary">{{lexileMap.get(book.level)}}</ion-note>
-        </ion-item>
+    <ion-item>
+      <ion-label slot="start" style="margin-right:10px;">Lexile Level</ion-label>
+      <ion-note style="margin:auto auto auto 0;" color="primary">{{lexileMap.get(book.level)}}</ion-note>
+    </ion-item>
 
-        <ion-item>
-          <ion-label slot="start" style="margin-right:10px;">Points</ion-label>
-          <ion-note style="margin:auto auto auto 0;" color="primary">{{book.points}}</ion-note>
-        </ion-item>
+    <ion-item>
+      <ion-label slot="start" style="margin-right:10px;">Points</ion-label>
+      <ion-note style="margin:auto auto auto 0;" color="primary">{{book.points}}</ion-note>
+    </ion-item>
 
-        <ion-item>
-          <ion-label slot="start" style="margin-right:10px;">Quiz #</ion-label>
-          <ion-note style="margin:auto auto auto 0;" color="primary">{{book.quizNumber }}</ion-note>
-        </ion-item>
+    <ion-item>
+      <ion-label slot="start" style="margin-right:10px;">Quiz #</ion-label>
+      <ion-note style="margin:auto auto auto 0;" color="primary">{{book.quizNumber }}</ion-note>
+    </ion-item>
 
-        <ion-item>
-          <ion-label style="width: 100%">Quiz Types</ion-label>
-          <ion-grid>
-            <ion-row *ngFor="let type of book.quizTypes">
-              <ion-col>
-                <ion-note style="font-size: 11px;">{{type}}</ion-note>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-item>
+    <ion-item>
+      <ion-label style="width: 100%">Quiz Types</ion-label>
+      <ion-grid>
+        <ion-row *ngFor="let type of book.quizTypes">
+          <ion-col>
+            <ion-note style="font-size: 16px;">{{type}}</ion-note>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
 
-        <ion-item>
-          <ion-label slot="start" style="margin-right:10px;">Word Count</ion-label>
-          <ion-note style="margin:auto auto auto 0;" color="primary">{{ (book.wordCount | number)}}</ion-note>
-        </ion-item>
+    <ion-item>
+      <ion-label slot="start" style="margin-right:10px;">Word Count</ion-label>
+      <ion-note style="margin:auto auto auto 0;" color="primary">{{ (book.wordCount | number)}}</ion-note>
+    </ion-item>
 
-        <ion-item>
-          <ion-label slot="start" style="margin-right:10px;">Interest Level</ion-label>
-          <ion-note style="margin:auto auto auto 0;" color="primary">{{book.interestLevel}}</ion-note>
-        </ion-item>
+    <ion-item>
+      <ion-label slot="start" style="margin-right:10px;">Interest Level</ion-label>
+      <ion-note style="margin:auto auto auto 0;" color="primary">{{book.interestLevel}}</ion-note>
+    </ion-item>
 
-        <ion-item>
-          <ion-label slot="start" style="margin-right:10px;">Fiction/NonFiction</ion-label>
-          <ion-note style="margin:auto auto auto 0;" color="primary">{{book.fictionNonFiction}}</ion-note>
-        </ion-item>
+    <ion-item>
+      <ion-label slot="start" style="margin-right:10px;">Fiction/NonFiction</ion-label>
+      <ion-note style="margin:auto auto auto 0;" color="primary">{{book.fictionNonFiction}}</ion-note>
+    </ion-item>
 
-        <ion-item>
-          <ion-label slot="start" style="margin-right:10px;">Language Code</ion-label>
-          <ion-note style="margin:auto auto auto 0;" color="primary">{{book.languageCode}}</ion-note>
-        </ion-item>
+    <ion-item>
+      <ion-label slot="start" style="margin-right:10px;">Language Code</ion-label>
+      <ion-note style="margin:auto auto auto 0;" color="primary">{{book.languageCode}}</ion-note>
+    </ion-item>
 
-        <ion-item>
-          <ion-label slot="start" style="margin-right:10px;">Rating</ion-label>
-          <app-rating [rating]="book.rating"></app-rating>
-        </ion-item>
+    <ion-item>
+      <ion-label slot="start" style="margin-right:10px;">Rating</ion-label>
+      <app-rating [rating]="book.rating"></app-rating>
+    </ion-item>
 
-        <ion-item>
-          <ion-label>Topics</ion-label>
-          <ion-grid>
-            <ion-row *ngFor="let topic of book.topics">
-              <ion-col>
-                <ion-note style="font-size: 11px;">{{topic}}</ion-note>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-item>
+    <ion-item>
+      <ion-label>Topics</ion-label>
+      <ion-grid>
+        <ion-row *ngFor="let topic of book.topics">
+          <ion-col>
+            <ion-note style="font-size: 16px;">{{topic}}</ion-note>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
 
-        <ion-item>
-          <ion-label>Series</ion-label>
-          <ion-grid>
-            <ion-row *ngFor="let series of book.series">
-              <ion-col>
-                <ion-note style="font-size: 11px;">{{series}}</ion-note>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-item>
+    <ion-item>
+      <ion-label>Series</ion-label>
+      <ion-grid>
+        <ion-row *ngFor="let series of book.series">
+          <ion-col>
+            <ion-note style="font-size: 16px;">{{series}}</ion-note>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
 
-        <ion-item>
-          <ion-label>ISBNs</ion-label>
-          <ion-grid>
-            <ion-row *ngFor="let isbn of book.isbns">
-              <ion-col>
-                <ion-note style="font-size: 11px;">{{isbn}}</ion-note>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-item>
+    <ion-item>
+      <ion-label>ISBNs</ion-label>
+      <ion-grid>
+        <ion-row *ngFor="let isbn of book.isbns">
+          <ion-col>
+            <ion-note style="font-size: 16px;">{{isbn}}</ion-note>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
 
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
+  </ion-list>
 </ion-content>
