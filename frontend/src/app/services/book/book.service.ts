@@ -24,4 +24,16 @@ export class BookService {
   public searchBookByTerm(term: string): Observable<Book[]> {
     return this.http.get<Book[]>(`${this.endpoint}/search/${term}`);
   }
+
+  public searchByTitle(title: string): Observable<Book[]> {
+    return this.http.post<Book[]>(`${this.endpoint}/search/title`, { term: title });
+  }
+
+  public searchByAuthor(author: string): Observable<Book[]> {
+    return this.http.post<Book[]>(`${this.endpoint}/search/author`, { term: author });
+  }
+
+  public searchByIsbn(isbn: string): Observable<Book[]> {
+    return this.http.post<Book[]>(`${this.endpoint}/search/isbn`, { term: isbn });
+  }
 }
