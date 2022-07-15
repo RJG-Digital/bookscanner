@@ -3,9 +3,9 @@ import { searchBookByTitle, searchBookByAuthor, searchBookByIsbn, scanSearch, ge
 const router = express.Router();
 
 // New
-router.get('/search/title', searchBookByTitle);
-router.get('/search/author', searchBookByAuthor);
-router.get('/search/isbn', searchBookByIsbn);
+router.post('/search/title', searchBookByTitle);
+router.post('/search/author', searchBookByAuthor);
+router.post('/search/isbn', searchBookByIsbn);
 router.get('scan/:term', scanSearch);
 // Recurring
 router.get('/latest/:days', getLatestBooks);
