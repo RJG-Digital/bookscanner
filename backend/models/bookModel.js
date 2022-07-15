@@ -13,6 +13,10 @@ const bookSchema = mongoose.Schema({
         required: true,
         default: ''
     },
+    points: {
+        type: String,
+        required: true
+    },
     picture: {
         type: String,
         required: true
@@ -60,6 +64,11 @@ const bookSchema = mongoose.Schema({
     isbns: {
         type: [String],
         required: true
+    },
+    barcodes: {
+        type: [String],
+        required: true,
+        default: []
     },
 }, {
     timestamps: true
