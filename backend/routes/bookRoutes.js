@@ -6,7 +6,7 @@ const router = express.Router();
 router.post('/search/title', searchBookByTitle);
 router.post('/search/author', searchBookByAuthor);
 router.post('/search/isbn', searchBookByIsbn);
-router.get('/scan/:term', scanSearch);
+router.get('/scan/:isbn', scanSearch);
 // Recurring
 router.get('/latest/:days', getLatestBooks);
 // Old
