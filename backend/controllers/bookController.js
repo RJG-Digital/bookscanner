@@ -28,7 +28,6 @@ const scanSearch = asynchandler(async (req, res) => {
 
 const searchBookByTitle = asynchandler(async (req, res) => {
     const { term } = req.body;
-    console.log(term);
     const books = await Book.find({ title: new RegExp(term, "i") }).limit(20);
     if (!books) {
         res.status(404);
