@@ -31,11 +31,11 @@
       [(ngModel)]="searchText" [placeholder]="searchPlaceholder">
     </ion-input>
 
-    <ion-input *ngIf="searchType === 'author'" style="text-align: left; margin-right: 20px;" clearInput
-      [(ngModel)]="authorFirstName" placeholder="Author First Name">
+    <ion-input *ngIf="searchType === 'author'" style="text-align: left; min-width: 130px;" clearInput
+      [(ngModel)]="authorFirstName" placeholder="First Name">
     </ion-input>
-    <ion-input *ngIf="searchType === 'author'" style="text-align: left; margin-right: 20px;" clearInput
-      [(ngModel)]="authorLastName" placeholder="Author Last Name">
+    <ion-input *ngIf="searchType === 'author'" style="text-align: left; margin-right: 20px; min-width: 130px;"
+      clearInput [(ngModel)]="authorLastName" placeholder="Last Name">
     </ion-input>
 
   </ion-row>
