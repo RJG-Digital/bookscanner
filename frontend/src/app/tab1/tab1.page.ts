@@ -19,6 +19,10 @@ export class Tab1Page implements OnInit, OnDestroy {
   public loading = false;
   public searchText = '';
   public recents: Book[] = [];
+  public searchType: string = 'title';
+  public searchPlaceholder: string = 'Title Search Criteria...';
+  public authorFirstName: string = '';
+  public authorLastName: string = '';
   private unsubscribe = new Subject<void>();
 
   constructor(
@@ -79,7 +83,19 @@ export class Tab1Page implements OnInit, OnDestroy {
 
   searchForBook() {
     this.loading = true;
-    this.bookService.searchBookByTerm(this.searchText).pipe(take(1))
+    let searchCall = this.bookService.searchByTitle(this.searchText.trim());
+    switch (this.searchType) {
+      case 'title': searchCall = this.bookService.searchByTitle(this.searchText.trim());
+        break;
+      case 'author':
+        const term = this.getAuthorSearchCriteria();
+        searchCall = this.bookService.searchByAuthor(term.trim());
+        break;
+      case 'isbn': searchCall = this.bookService.searchByIsbn(this.searchText.trim());
+        break;
+      default: break;
+    }
+    searchCall.pipe(take(1))
       .subscribe(data => {
         if (data) {
           this.bookService.bookList$.next(data);
@@ -102,6 +118,18 @@ export class Tab1Page implements OnInit, OnDestroy {
       });
   }
 
+  private getAuthorSearchCriteria(): string {
+    if (this.authorFirstName.trim() !== '' && this.authorLastName.trim() !== '') {
+      return `${this.authorLastName}, ${this.authorFirstName}`;
+    }
+    if (this.authorFirstName.trim() !== '' && this.authorLastName.trim() === '') {
+      return this.authorFirstName;
+    }
+    if (this.authorFirstName.trim() === '' && this.authorLastName.trim() !== '') {
+      return this.authorLastName;
+    }
+  }
+
   public viewBook(book: Book) {
     this.bookService.selectedBook$.next(book);
     this.router.navigate(['book']);
@@ -109,6 +137,18 @@ export class Tab1Page implements OnInit, OnDestroy {
 
   public deleteRecent(index) {
     this.storageService.removeFromRecent(index);
+  }
+
+  public onSearchChange() {
+    switch (this.searchType) {
+      case 'title': this.searchPlaceholder = 'Title Search Criteria...';
+        break;
+      case 'author': this.searchPlaceholder = 'Author Search Criteria...';
+        break;
+      case 'isbn': this.searchPlaceholder = 'ISBN Search Criteria...';
+        break;
+      default: break;
+    }
   }
 
   ngOnDestroy(): void {

@@ -8,10 +8,12 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
+  <ion-list *ngIf="books && books.length">
     <ion-item style="margin:10px;" *ngFor="let book of books" (click)="viewBook(book)">
       <ion-img style="margin:auto; height: 40px; width: 40px;" [src]="book.picture"></ion-img>
       <ion-label style="margin-left: 10px;">{{book.title}}</ion-label>
     </ion-item>
   </ion-list>
+
+  <h1 style="text-align: center;" *ngIf="!books || !books.length">No books found.</h1>
 </ion-content>

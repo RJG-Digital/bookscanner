@@ -17,12 +17,30 @@
       <p style="margin: -25px 10px 10px 80px; font-size: 12px;">Scan a book with your phone camera.</p>
     </ion-card-content>
   </ion-card>
-  <ion-row style="height: 80px;" *ngIf="!loading">
-    <ion-input style="text-align: center;" clearInput [(ngModel)]="searchText"
-      placeholder="Search by title, author, or ISBN here...">
-    </ion-input>
+  <ion-row style="margin: auto 20px;" *ngIf="!loading">
+    <ion-label style="margin: auto 10px;">Search By:</ion-label>
+    <ion-select style="width: 90px; margin-right:20px" interface="popover" [(ngModel)]="searchType"
+      (ionChange)="onSearchChange()">
+      <ion-select-option value="title">Title</ion-select-option>
+      <ion-select-option value="author">Author</ion-select-option>
+      <ion-select-option value="isbn">ISBN</ion-select-option>
+    </ion-select>
   </ion-row>
-  <ion-button *ngIf="!loading" expand="block" style="margin: 20px" [disabled]="!searchText || searchText === ''"
+  <ion-row style="margin: 20px 20px auto 20px ;" *ngIf="!loading">
+    <ion-input *ngIf="searchType !== 'author'" style="text-align: left; margin-right: 20px;" clearInput
+      [(ngModel)]="searchText" [placeholder]="searchPlaceholder">
+    </ion-input>
+
+    <ion-input *ngIf="searchType === 'author'" style="text-align: left; min-width: 130px;" clearInput
+      [(ngModel)]="authorFirstName" placeholder="First Name">
+    </ion-input>
+    <ion-input *ngIf="searchType === 'author'" style="text-align: left; margin-right: 20px; min-width: 130px;"
+      clearInput [(ngModel)]="authorLastName" placeholder="Last Name">
+    </ion-input>
+
+  </ion-row>
+  <ion-button *ngIf="!loading" expand="block" style="margin: 20px"
+    [disabled]="(searchType !== 'author' && (!searchText || searchText === '')) || (searchType === 'author' && authorFirstName.trim() === '' && authorLastName.trim() === '')"
     (click)="searchForBook()">Search</ion-button>
 
   <ion-row *ngIf="loading" style="height: calc(100vh - 200px);">

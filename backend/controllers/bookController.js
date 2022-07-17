@@ -28,7 +28,6 @@ const scanSearch = asynchandler(async (req, res) => {
 
 const searchBookByTitle = asynchandler(async (req, res) => {
     const { term } = req.body;
-    console.log(term);
     const books = await Book.find({ title: new RegExp(term, "i") }).limit(20);
     if (!books) {
         res.status(404);
@@ -45,7 +44,7 @@ const searchBookByAuthor = asynchandler(async (req, res) => {
         res.status(404);
         throw new Error('No Books were found');
     }
-    const sorted = books.sort((a, b) => (a.author > b.author) ? 1 : -1)
+    const sorted = books.sort((a, b) => (a.title > b.title) ? 1 : -1)
     res.status(200).json(sorted);
 })
 
