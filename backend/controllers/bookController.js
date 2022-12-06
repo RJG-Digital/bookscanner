@@ -351,7 +351,6 @@ const evalPage = async (page) => {
         ).innerText.trim();
         let rating = document.querySelector('#ctl00_ContentPlaceHolder1_ucBookDetail_lblRanking > img')?.getAttribute('alt') ?
             document.querySelector('#ctl00_ContentPlaceHolder1_ucBookDetail_lblRanking > img').getAttribute('alt') : 'Not yet rated.';
-
         let isbns = document.querySelector('#ctl00_ContentPlaceHolder1_ucBookDetail_tblPublisherTable > tbody').innerHTML.toString().split('</td>')
 
         isbns = isbns.slice(5, isbns.length);
