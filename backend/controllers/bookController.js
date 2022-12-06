@@ -266,7 +266,7 @@ const getLatestBooks = asynchandler(async (req, res) => {
                 const savedBook = await Book.create(book);
                 foundNewBooksCounter++;
             } else if (foundBook) {
-                console.log(book.title);
+
             }
             counter++;
             if (counter % 20 === 0) {
