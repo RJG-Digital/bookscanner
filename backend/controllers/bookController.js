@@ -160,7 +160,6 @@ const getBooksBySearchTerm = asynchandler(async (req, res) => {
         }
         await Promise.all([
             page.waitForSelector(BOOK_LIST_TITLE_ID, { timeout: 5000 }),// The promise resolves after navigation has finished
-            // page.waitForTimeout(500),
             bookList[0].click(), // Clicking the link will indirectly cause a navigation
         ]);
         let counter = 0
